@@ -13,6 +13,8 @@ import ARKit
 class ViewController: UIViewController, ARSCNViewDelegate {
 
     @IBOutlet var sceneView: ARSCNView!
+     var sphere = SCNNode()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,9 +26,9 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         sceneView.showsStatistics = true
         
         // Create a new scene
-        // let scene = SCNScene(named: "art.scnassets/ship.scn")!
+        //let scene = SCNScene(named: "art.scnassets/ship.scn")!
         
-        // Set the scene to the view
+       // Set the scene to the view
         // sceneView.scene = scene
         
         
@@ -50,6 +52,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         drawPlaneAt900()
         drawTorusAt300()
         drawOrbitingShip()
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -60,17 +63,17 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
     
     func drawSphereAtOrigin() {
-        let sphere = SCNNode(geometry: SCNSphere(radius: 0.05))
-        sphere.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "earth")
-        sphere.geometry?.firstMaterial?.specular.contents = UIColor.yellow
-        sphere.position = SCNVector3(0, 0, 0)
-        sceneView.scene.rootNode.addChildNode(sphere)
-        let rotateAction = SCNAction.rotate(by: 360.degreesToRadians(),
-                                            around: SCNVector3(0, 1, 0),
-                                            duration: 8)
-        let rotateForeverAction = SCNAction.repeatForever(rotateAction)
-        sphere.runAction(rotateForeverAction)
-    }
+       sphere = SCNNode(geometry: SCNSphere(radius: 0.05))
+       sphere.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "earth")
+       sphere.geometry?.firstMaterial?.specular.contents = UIColor.yellow
+       sphere.position = SCNVector3(0, 0, 0)
+       sceneView.scene.rootNode.addChildNode(sphere)
+       let rotateAction = SCNAction.rotate(by: 360.degreesToRadians(),
+                                           around: SCNVector3(0, 1, 0),
+                                           duration: 8)
+       let rotateForeverAction = SCNAction.repeatForever(rotateAction)
+       sphere.runAction(rotateForeverAction)
+     }
 
     func drawBoxAt1200High() {
       let box = SCNNode(geometry: SCNBox(width: 0.1,
@@ -94,6 +97,17 @@ class ViewController: UIViewController, ARSCNViewDelegate {
       sceneView.scene.rootNode.addChildNode(pyramid)
     }
     
+     func drawTorusAt300() {
+       let torus = SCNNode(geometry: SCNTorus(ringRadius: 0.05,
+                                              pipeRadius: 0.03))
+       torus.geometry?.firstMaterial?.diffuse.contents = UIColor.red
+       torus.geometry?.firstMaterial?.specular.contents = UIColor.white
+       torus.position = SCNVector3(0.2, 0, 0)
+       torus.eulerAngles = SCNVector3(0, 0, 45.degreesToRadians())
+       sceneView.scene.rootNode.addChildNode(torus)
+     }
+    
+    
     func drawPlaneAt900() {
       let plane = SCNNode(geometry: SCNPlane(width: 0.1,
                                              height: 0.1))
@@ -106,17 +120,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
       sceneView.scene.rootNode.addChildNode(plane)
     }
 
-    
-    func drawTorusAt300() {
-      let torus = SCNNode(geometry: SCNTorus(ringRadius: 0.05,
-                                             pipeRadius: 0.03))
-      torus.geometry?.firstMaterial?.diffuse.contents = UIColor.red
-      torus.geometry?.firstMaterial?.specular.contents = UIColor.white
-      torus.position = SCNVector3(0.2, 0, 0)
-      torus.eulerAngles = SCNVector3(0, 0, 45.degreesToRadians())
-      sceneView.scene.rootNode.addChildNode(torus)
-    }
-    
 
     func drawOrbitingShip() {
       let scene = SCNScene(named: "art.scnassets/ship.scn")!
@@ -126,6 +129,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
       ship.eulerAngles = SCNVector3(0, 180.degreesToRadians(), 0)
       sphere.addChildNode(ship)
     }
+
     
 
     // MARK: - ARSCNViewDelegate
