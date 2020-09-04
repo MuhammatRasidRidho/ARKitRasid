@@ -32,7 +32,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // sceneView.scene = scene
         
         
-        sceneView.debugOptions = [ARSCNDebugOptions.showWorldOrigin,
+        sceneView.debugOptions = [	
                                   ARSCNDebugOptions.showFeaturePoints]
         sceneView.autoenablesDefaultLighting = true
         
